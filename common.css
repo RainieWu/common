@@ -1,0 +1,220 @@
+/*
+	author: 吴颖琳
+	contact: ng.winglam@qq.com
+	date: 2018.01.12-2018.01.22
+*/
+
+
+
+
+* {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+}
+body, p, ul, ol, form, h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+}
+
+ul, input, button, textarea {
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+	font-family: "Helvetica", "Microsoft YaHei";
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+ul {
+	list-style: none;
+}
+
+ol {
+	padding-left: 1rem;
+}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+input, button, textarea {
+	border: none;
+	background: none;
+	outline: none;
+}
+
+select {
+	outline: none;
+}
+
+textarea {
+	resize: none;
+}
+
+h1 {
+	font-size: 32px;
+	font-size: 3.2rem;
+}
+h2 {
+	font-size: 24px;
+	font-size: 2.4rem;
+}
+h3 {
+	font-size: 18px;
+	font-size: 1.8rem;
+}
+h4 {
+	font-size: 16px;
+	font-size: 1.6rem;
+}
+h5 {
+	font-size: 14px;
+	font-size: 1.4rem;
+}
+h6 {
+	font-size: 10px;
+	font-size: 1rem;
+}
+
+
+
+span.dot-span {
+	display: inline-block;
+	border-radius: 50%;
+}
+/*
+	圆点 {
+		width: 圆点直径长度;
+		height: 圆点直径长度;
+		background: 圆点颜色;
+	}
+*/
+
+
+span.triangle-span  {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-color: transparent;
+}
+/*
+	左三角 {
+		border-width: 底边长度/2 三角形的高 底边长度/2 0;
+		border-right-color: 三角形颜色;
+	}
+	右三角 {
+		border-width: 底边长度/2 0 底边长度/2 三角形的高;
+		border-left-color: 三角形颜色;
+	}
+	上三角 {
+		border-width: 0 底边长度/2 三角形的高 底边长度/2;
+		border-bottom-color: 三角形颜色;
+	}
+	下三角 {
+		border-width: 三角形的高 底边长度/2 0 底边长度/2;
+		border-top-color: 三角形颜色;
+	}
+	左上等腰直角三角 {
+		border-width: 直角边长度;
+	    border-left-color: 三角形颜色;
+	    border-top-color: 三角形颜色;
+	}
+	右上等腰直角三角 {
+		border-width: 直角边长度;
+	    border-right-color: 三角形颜色;
+	    border-top-color: 三角形颜色;
+	}
+	左下等腰直角三角 {
+		border-width: 直角边长度;
+	    border-left-color: 三角形颜色;
+	    border-bottom-color: 三角形颜色;
+	}
+	右下等腰直角三角 {
+		border-width: 直角边长度;
+	    border-right-color: 三角形颜色;
+	    border-bottom-color: 三角形颜色;
+	}
+*/
+
+
+.text-overflow-ellipsis {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.mul-text-overflow-ellipsis {
+	overflow: hidden;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+/*
+	多行文本 {
+		display: box;
+		display: -moz-box;
+		display: -webkit-box;
+		line-clamp: 行数;
+		-moz-line-clamp: 行数;
+		-webkit-line-clamp: 行数;
+	}
+*/
+
+
+
+.alert-box {
+	display: -moz-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -moz-flex;
+	display: -webkit-flex;
+	display: flex;
+
+	-moz-box-pack: center;
+	-webkit-box-pack: center;
+	-moz-justify-content: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+
+	-moz-box-align: center;
+	-webkit-box-align: center;
+	-moz-align-items: center;
+	-webkit-align-items: center;
+	align-items: center;
+
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.alert-box .box {
+	position: relative;
+}
+.alert-box .box .close {
+	display: inline-block;
+	position: absolute;
+}
+.alert-box .box .title,
+.alert-box .box .message,
+.alert-box .box .buttons {
+	text-align: center;
+}
+.alert-box .box .buttons {
+	width: 100%;
+	position: absolute;
+	bottom: 0%;
+	left: 0%;
+}

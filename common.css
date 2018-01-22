@@ -26,7 +26,7 @@ ul, input, button, textarea {
 
 html {
 	font-size: 62.5%;
-	font-family: "Helvetica", "Microsoft YaHei";
+	font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 
 a {

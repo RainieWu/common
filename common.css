@@ -11,6 +11,9 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+
+	word-wrap: break-word;
+	word-break: break-all;
 }
 html, body {
 	width: 100%;

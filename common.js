@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.21
+	date: 2018.01.12-2018.01.25
 	ps: 依赖jQuery
 */
 
@@ -259,6 +259,31 @@ function setAlertBox(param) {
 	$(".alert-box .buttons button").click(function(e) {
 		param.buttons[$(e.target).attr("index") - 1].callback();
 	});
+}
+
+
+/*
+	功能：设置加载动画
+*/
+function setLoading() {
+	if($("body").find(".loading").length == 0) {
+		var html = "<div class='loading'>";
+		for(var i = 0; i < 10; i++) {
+			html += "<span></span>";
+		}
+		html += "</div>";
+		$("body").append(html);
+		$(".loading").hide().fadeIn();
+	} else {
+		$(".loading").fadeIn();
+	}
+}
+
+/*
+	功能：移除加载动画
+*/
+function removeLoading() {
+	$(".loading").fadeOut();
 }
 
 

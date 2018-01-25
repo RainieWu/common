@@ -222,7 +222,7 @@ function setAlertBox(param) {
 		param.buttons = [{
 			value: "确认",
 			callback: function() {
-				$(".alert-box").hide();
+				$(".alert-box").remove();
 			}
 		}];
 	}
@@ -246,7 +246,7 @@ function setAlertBox(param) {
 		html += "<button index=" + (i + 1) +" class='btn" + (i + 1) +"'>" + param.buttons[i].value +"</button>";
 		if(!param.buttons[i].callback) {
 			param.buttons[i].callback = function() {
-				$(".alert-box").hide();
+				$(".alert-box").remove();
 			}
 		}
 	}
@@ -255,13 +255,13 @@ function setAlertBox(param) {
 
 	if(param.close) {
 		$(".alert-box .close").click(function() {
-			$(".alert-box").hide();
+			$(".alert-box").remove();
 		});
 	}
 	if(param.maskClose) {
 		$(".alert-box").click(function(e) {
 			if($(e.target).parent().is(("body"))) {
-				$(".alert-box").hide();
+				$(".alert-box").remove();
 			}
 		});
 	}

@@ -185,6 +185,7 @@ function getCode(param) {
 		{
 			className: "",				// 可选，字符串，弹窗额外的类名
 			close: true,				// 可选，布尔值，是否有关闭按钮，默认为false
+			maskClose: true,			// 可选，布尔值，点击遮罩能否关闭弹窗，默认为false
 			title: "",					// 可选，字符串，标题文本，默认无标题
 			message: "",				// 必选，字符串，弹窗信息文本
 			buttons: [{					// 可选，数组，默认为一个“确认”按钮
@@ -196,6 +197,7 @@ function getCode(param) {
 			{
 				className: "my-alert-box",
 				close: true,
+				maskClose: true,
 				title: "标题",
 				message: "弹窗信息",
 				buttons: [{
@@ -254,6 +256,13 @@ function setAlertBox(param) {
 	if(param.close) {
 		$(".alert-box .close").click(function() {
 			$(".alert-box").hide();
+		});
+	}
+	if(param.maskClose) {
+		$(".alert-box").click(function(e) {
+			if($(e.target).parent().is(("body"))) {
+				$(".alert-box").hide();
+			}
 		});
 	}
 	$(".alert-box .buttons button").click(function(e) {

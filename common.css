@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.25
+	date: 2018.01.12-2018.01.30
 */
 
 
@@ -185,6 +185,26 @@ span.triangle-span  {
 */
 
 
+.vertical-center {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-box-align: center;
+	-o-box-align: center;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+	-ms-align-items: center;
+	-o-align-items: center;
+	align-items: center;
+}
+
+
 
 .alert-box,
 .loading {
@@ -232,6 +252,9 @@ span.triangle-span  {
 .alert-box .box .message,
 .alert-box .box .buttons {
 	text-align: center;
+}
+.alert-box .box .message {
+	overflow: auto;
 }
 .alert-box .box .buttons {
 	width: 100%;

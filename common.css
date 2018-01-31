@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.30
+	date: 2018.01.12-2018.01.31
 */
 
 
@@ -50,6 +50,14 @@ ol {
 img {
 	width: 100%;
 	height: auto;
+}
+
+input, button, textarea, select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
 }
 
 input, button, textarea {

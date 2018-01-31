@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.25
+	date: 2018.01.12-2018.01.31
 	ps: 依赖jQuery
 */
 
@@ -29,7 +29,7 @@
 			alertBox: {						// 可选，对象，弹窗显示获取验证码的结果，不弹窗显示时可访问全局变量getCodeMsg
 				close: true,				// 可选，布尔值，是否有关闭按钮，默认为false
 				title: "",					// 可选，字符串，标题文本，默认无标题
-				buttons: [{					// 可选，数组，默认为一个“确认”按钮
+				buttons: [{					// 可选，数组，默认为一个“确定”按钮
 					value: "",				// 必选，字符串，按钮文本
 					callback: function() {}	// 可选，函数，点击按钮的回调函数，默认操作为关闭弹窗
 				}]
@@ -56,9 +56,9 @@
 					close: true,
 					title: "标题",
 					buttons: [{
-						value: "确认",
+						value: "确定",
 						callback: function() {
-							console.log("确认");
+							console.log("确定");
 						}
 					}, {
 						value: "取消",
@@ -188,7 +188,7 @@ function getCode(param) {
 			maskClose: true,			// 可选，布尔值，点击遮罩能否关闭弹窗，默认为false
 			title: "",					// 可选，字符串，标题文本，默认无标题
 			message: "",				// 必选，字符串，弹窗信息文本
-			buttons: [{					// 可选，数组，默认为一个“确认”按钮
+			buttons: [{					// 可选，数组，默认为一个“确定”按钮
 				value: "",				// 必选，字符串，按钮文本
 				callback: function() {}	// 可选，函数，点击按钮的回调函数，默认操作为关闭弹窗
 			}]
@@ -201,9 +201,9 @@ function getCode(param) {
 				title: "标题",
 				message: "弹窗信息",
 				buttons: [{
-					value: "确认",
+					value: "确定",
 					callback: function() {
-						console.log("确认");
+						console.log("确定");
 					}
 				}, {
 					value: "取消",
@@ -220,7 +220,7 @@ function getCode(param) {
 function setAlertBox(param) {
 	if(!param.buttons) {
 		param.buttons = [{
-			value: "确认",
+			value: "确定",
 			callback: function() {
 				$(".alert-box").remove();
 			}

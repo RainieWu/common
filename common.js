@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.31
+	date: 2018.01.12-2018.02.11
 	ps: 依赖jQuery
 */
 
@@ -252,6 +252,7 @@ function setAlertBox(param) {
 	}
 	html += "</div>" + "</div>" + "</div>";
 	$("body").append(html);
+	$(".alert-box").hide().fadeIn();
 
 	if(param.close) {
 		$(".alert-box .close").click(function() {

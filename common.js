@@ -1,18 +1,19 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.02.11
+	date: 2018.01.12-2018.03.02
 	ps: 依赖jQuery
 */
 
 
 
 /*
-	功能：完成手机号码的基本验证及获取验证码
-	参数：必选，对象，获取验证码所用到的表单和ajax的相关设置
+	功能：完成手机号码或邮箱地址的基本验证及获取验证码
+	参数：必选，对象，获取验证码所用到的表单、ajax和弹窗的相关设置
 		{
 			form: {							// 必选，对象，获取验证码的表单设置
-				phoneNumName: "",			// 可选，字符串，填写手机号码的input标签的name属性值，默认为"phoneNum"
+				targetType: "",				// 可选，字符串，目标类型，取值为"phone"或"email"，默认为"phone"
+				inputName: "",				// 可选，字符串，填写手机号码或邮箱地址的input标签的name属性值，默认为"phone"
 				getCodeClass: "",			// 可选，字符串，获取验证码按钮的button标签的class，默认为"getCode"
 				countdown: 0,				// 可选，数值，重新获取验证码的等待时间，默认为60
 				countdownText: ""			// 可选，字符串，等待重新获取验证码时按钮的文本内容，默认为"重新发送"
@@ -21,12 +22,13 @@
 				url: "",					// 必选，字符串，获取验证码的请求地址
 				type: "",					// 可选，字符串，请求方式，默认为"POST"
 				dataType: "",				// 可选，字符串，返回的数据类型，默认为"json"
-				dataName: "",				// 可选，字符串，发送给服务器的数据对象中手机号码名值对的名，默认为"phoneNum"
+				dataName: "",				// 可选，字符串，发送给服务器的数据对象中名值对的名，默认为填写手机号码或邮箱地址的input标签的name属性值
 				resultCodeName: "",			// 可选，字符串，返回数据的状态码名称，默认为"code"
 				resultMsgName: "",			// 可选，字符串，返回数据的消息名称，默认为"msg"
 				successCode: ""				// 可选，字符串或数值，返回数据的成功状态码，使用严格比较运算符进行比较，默认为1
 			},
-			alertBox: {						// 可选，对象，弹窗显示获取验证码的结果，不弹窗显示时可访问全局变量getCodeMsg
+			alertBox: {						// 可选，对象，弹窗显示获取验证码的结果，不弹窗显示时可访问全局变量getCodeMsg以获取ajax返回信息
+				className: "",				// 可选，字符串，弹窗额外的类名
 				close: true,				// 可选，布尔值，是否有关闭按钮，默认为false
 				title: "",					// 可选，字符串，标题文本，默认无标题
 				buttons: [{					// 可选，数组，默认为一个“确定”按钮
@@ -38,7 +40,8 @@
 		参数示例1：
 			{
 				form: {
-					phoneNumName: "phoneNum",
+					targetType: "phone",
+					inputName: "phone",
 					getCodeClass: "getCode",
 					countdown: 60,
 					countdownText: "重新发送"
@@ -47,12 +50,13 @@
 					url: "getCode.do",
 					type: "POST",
 					dataType: "json",
-					dataName: "phoneNum",
+					dataName: "phone",
 					resultCodeName: "code",
 					resultMsgName: "msg",
 					successCode: 1
 				},
 				alertBox: {
+					className: "my-alert-box",
 					close: true,
 					title: "标题",
 					buttons: [{
@@ -78,8 +82,11 @@
 */
 var getCodeMsg = "";
 function getCode(param) {
-	if(!param.form.phoneNumName) {
-		param.form.phoneNumName = "phoneNum";
+	if(!param.form.targetType) {
+		param.form.targetType = "phone";
+	}
+	if(!param.form.inputName) {
+		param.form.inputName = "phone";
 	}
 	if(!param.form.getCodeClass) {
 		param.form.getCodeClass = "getCode";
@@ -98,7 +105,7 @@ function getCode(param) {
 		param.ajax.dataType = "json";
 	}
 	if(!param.ajax.dataName) {
-		param.ajax.dataName = "phoneNum";
+		param.ajax.dataName = param.form.inputName;
 	}
 	if(!param.ajax.resultCodeName) {
 		param.ajax.resultCodeName = "code";
@@ -115,26 +122,8 @@ function getCode(param) {
 	var normalText = getCodeElement.text();
 	getCodeElement.click(function(e) {
 		e.preventDefault();
-		var phoneNum = $("input[name='" + param.form.phoneNumName + "']").val();
-		if(phoneNum == "") {
-			getCodeMsg = "请输入手机号码";
-			if(param.alertBox) {
-				param.alertBox.message = getCodeMsg;
-				setAlertBox(param.alertBox);
-			}
-		} else if(phoneNum.length != 11) {
-			getCodeMsg = "请输入位数正确的手机号码";
-			if(param.alertBox) {
-				param.alertBox.message = getCodeMsg;
-				setAlertBox(param.alertBox);
-			}
-		} else if(!/^1[0-9]{10}$/.test(phoneNum)) {
-			getCodeMsg = "请输入正确的手机号码";
-			if(param.alertBox) {
-				param.alertBox.message = getCodeMsg;
-				setAlertBox(param.alertBox);
-			}
-		} else {
+		var target = $("input[name='" + param.form.inputName + "']").val();
+		if((param.form.targetType == "phone" && phoneNumValid(target).isCorrect) || (param.form.targetType == "email" && emailAddressValid(target).isCorrect)) {
 			getCodeElement.attr("disabled", "disabled").text(param.form.countdownText + "(" + param.form.countdown + ")");
 			var timer = setInterval(function() {
 				if(param.form.countdown == 1) {
@@ -147,7 +136,7 @@ function getCode(param) {
 			}, 1000);
 
 			var data = {};
-			data[param.ajax.dataName] = phoneNum;
+			data[param.ajax.dataName] = target;
 			$.ajax({
 				url: param.ajax.url,
 				type: param.ajax.type,
@@ -174,6 +163,14 @@ function getCode(param) {
 					}
 				}
 			});
+		} else {
+			if(param.form.targetType == "phone") {
+				getCodeMsg = phoneNumValid(target).msg;
+			} else {
+				getCodeMsg = emailAddressValid(target).msg;
+			}
+			param.alertBox.message = getCodeMsg;
+			setAlertBox(param.alertBox);
 		}
 	});
 }
@@ -298,21 +295,77 @@ function removeLoading() {
 
 
 /*
-	功能：对身份证进行格式、地址编码和校验位的验证
-	参数：必选，字符串，身份证号码
-	返回值: 对象，身份证验证的结果
+	功能：对手机号码进行格式验证
+	参数：必选，字符串，手机号码
+	返回值: 对象，手机号码验证的结果
 		{
-			isCorrect: true,			// 布尔值，身份证验证的结果标记
-			msg: "身份证号码格式正确"	// 字符串，身份证验证的信息
+			isCorrect: true,			// 布尔值，手机号码验证的结果标记
+			msg: "手机号码格式正确"		// 字符串，手机号码验证的信息
 		}
 */
-function identityCoeValid(code) {
+function phoneNumValid(num) {
+    var result = {
+        isCorrect: true,
+        msg: "手机号码格式正确"
+    };
+    if(!num) {
+    	result.isCorrect = false;
+    	result.msg = "手机号码为空";
+	} else if(num.length != 11) {
+    	result.isCorrect = false;
+		result.msg = "手机号码位数错误";
+	} else if(!/^1[0-9]{10}$/.test(num)) {
+    	result.isCorrect = false;
+		result.msg = "手机号码格式错误";
+	}
+    return result;
+}
+
+
+/*
+	功能：对邮箱地址进行格式验证
+	参数：必选，字符串，邮箱地址
+	返回值: 对象，邮箱地址验证的结果
+		{
+			isCorrect: true,			// 布尔值，邮箱地址验证的结果标记
+			msg: "邮箱地址格式正确"		// 字符串，邮箱地址验证的信息
+		}
+*/
+function emailAddressValid(email) {
+    var result = {
+        isCorrect: true,
+        msg: "邮箱地址格式正确"
+    };
+    if(!email) {
+    	result.isCorrect = false;
+    	result.msg = "邮箱地址为空";
+	} else if(!/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/.test(email)) {
+    	result.isCorrect = false;
+		result.msg = "邮箱地址格式错误";
+	}
+    return result;
+}
+
+
+/*
+	功能：对身份证进行格式、地址编码和校验位的验证
+	参数：必选，字符串，身份证号码
+	返回值: 对象，身份证号码验证的结果
+		{
+			isCorrect: true,			// 布尔值，身份证号码验证的结果标记
+			msg: "身份证号码格式正确"	// 字符串，身份证号码验证的信息
+		}
+*/
+function identityCodeValid(code) {
     var result = {
         isCorrect: true,
         msg: "身份证号码格式正确"
     };
     var city = {11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江", 31: "上海", 32: "江苏", 33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东", 41: "河南", 42: "湖北", 43: "湖南", 44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外"};
-    if(!code || !(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code))) {
+    if(!code) {
+        result.isCorrect = false;
+        result.msg = "身份证号码为空";
+    } else if(!(/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code))) {
         result.isCorrect = false;
         result.msg = "身份证号码格式错误";
     } else if(!city[code.substr(0, 2)]) {

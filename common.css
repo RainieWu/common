@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.01.31
+	date: 2018.01.12-2018.03.20
 */
 
 
@@ -101,6 +101,10 @@ h5 {
 h6 {
 	font-size: 10px;
 	font-size: 1rem;
+}
+
+pre {
+	white-space: pre-wrap;
 }
 
 

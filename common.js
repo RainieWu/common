@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.03.02
+	date: 2018.01.12-2018.03.20
 	ps: 依赖jQuery
 */
 
@@ -169,8 +169,10 @@ function getCode(param) {
 			} else {
 				getCodeMsg = emailAddressValid(target).msg;
 			}
-			param.alertBox.message = getCodeMsg;
-			setAlertBox(param.alertBox);
+			if(param.alertBox) {
+				param.alertBox.message = getCodeMsg;
+				setAlertBox(param.alertBox);
+			}
 		}
 	});
 }

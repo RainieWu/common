@@ -1,7 +1,7 @@
 /*
 	author: 吴颖琳
 	contact: ng.winglam@qq.com
-	date: 2018.01.12-2018.03.20
+	date: 2018.01.12-2018.03.24
 	ps: 依赖jQuery
 */
 
@@ -123,15 +123,18 @@ function getCode(param) {
 	getCodeElement.click(function(e) {
 		e.preventDefault();
 		var target = $("input[name='" + param.form.inputName + "']").val();
+		var countdown = param.form.countdown;
 		if((param.form.targetType == "phone" && phoneNumValid(target).isCorrect) || (param.form.targetType == "email" && emailAddressValid(target).isCorrect)) {
-			getCodeElement.attr("disabled", "disabled").text(param.form.countdownText + "(" + param.form.countdown + ")");
-			var timer = setInterval(function() {
-				if(param.form.countdown == 1) {
+			getCodeElement.attr("disabled", "disabled").text(param.form.countdownText + "(" + countdown + ")");
+			var timer;
+			clearInterval(timer);
+			timer = setInterval(function() {
+				if(countdown == 1) {
 					clearInterval(timer);
 					getCodeElement.removeAttr("disabled").text(normalText);
 				} else {
-					param.form.countdown--;
-					getCodeElement.text(param.form.countdownText + "(" + param.form.countdown +")");
+					countdown--;
+					getCodeElement.text(param.form.countdownText + "(" + countdown +")");
 				}
 			}, 1000);
 
@@ -147,7 +150,7 @@ function getCode(param) {
 						clearInterval(timer);
 						getCodeElement.removeAttr("disabled").text(normalText);
 						if(param.alertBox) {
-							param.alertBox.message = getCodeMsg;
+							param.alertBox.message = result.msg;
 							setAlertBox(param.alertBox);
 						}
 					}
